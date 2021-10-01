@@ -17,23 +17,26 @@ from rclpy.node import Node
 
 from std_msgs.msg import String
 from std_msgs.msg import Float64
+from halodi_msgs.msg import HandCommand
 
 
 class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(Float64, '/bebionic/right_hand', 10)
-        timer_period = 2  # seconds
+        self.publisher_ = self.create_publisher(HandCommand, '/eve/right_hand_closure', 10)
+        timer_period = 1.2  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = Float64()
+        msg = HandCommand()
         # If time is even, send 0.0, otherwise 1.0
-        msg.data = float(self.i % 2)
+        msg.closure = float(self.i % 2)
+        msg.speed = float(255)
+        # msg.force = 100.0
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info('Publishing: "%s"' % msg.closure)
         self.i += 1
 
 
