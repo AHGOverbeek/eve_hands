@@ -42,14 +42,15 @@ class MinimalPublisher(Node):
         msg.closure = 12000.0 + (self.i % 2) * 3000.0
         # Cannot publish at the same time (without explicit delay or time.sleep), otherwise only one is executed
         # The limit seems to be about 0.04s, only 25Hz
+        delay = 0.04;
         self.publisher_thumb_.publish(msg)
-        time.sleep(0.04)
+        time.sleep(delay)
         self.publisher_index_.publish(msg)
-        time.sleep(0.04)
+        time.sleep(delay)
         self.publisher_middle_.publish(msg)
-        time.sleep(0.04)
+        time.sleep(delay)
         self.publisher_ring_.publish(msg)
-        time.sleep(0.04)
+        time.sleep(delay)
         self.publisher_little_.publish(msg)
 
         self.get_logger().info('Publishing: "%s"' % msg.closure)
