@@ -20,8 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 'my_node = eve_hands.my_node:main',
-            'talker = eve_hands.publisher_member_function:main',
+            'wave_r = eve_hands.publisher_member_function:main',
+            'wave_rl = eve_hands.wave_rl:main',
             'listener = eve_hands.subscriber_member_function:main',
         ],
     },
