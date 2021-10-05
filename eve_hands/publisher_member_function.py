@@ -19,26 +19,41 @@ from std_msgs.msg import String
 from std_msgs.msg import Float64
 from halodi_msgs.msg import HandCommand
 
+import time
 
 class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(HandCommand, '/eve/right_hand_closure', 10)
-        timer_period = 1.2  # seconds
+        self.publisher_thumb_ = self.create_publisher(HandCommand, '/bebionic/right/finger_thumb', 10)
+        self.publisher_index_ = self.create_publisher(HandCommand, '/bebionic/right/finger_index', 10)
+        self.publisher_middle_ = self.create_publisher(HandCommand, '/bebionic/right/finger_middle', 10)
+        self.publisher_ring_ = self.create_publisher(HandCommand, '/bebionic/right/finger_ring', 10)
+        self.publisher_little_ = self.create_publisher(HandCommand, '/bebionic/right/finger_little', 10)
+        timer_period = 1.0  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
         msg = HandCommand()
-        # If time is even, send 0.0, otherwise 1.0
-        msg.closure = float(self.i % 2)
         msg.speed = float(255)
-        # msg.force = 100.0
-        self.publisher_.publish(msg)
+        msg.force = 100.0
+        # If time is even, send 12000.0, otherwise 15000.0
+        msg.closure = 12000.0 + (self.i % 2) * 3000.0
+        # Cannot publish at the same time (without explicit delay or time.sleep), otherwise only one is executed
+        # The limit seems to be about 0.04s, only 25Hz
+        self.publisher_thumb_.publish(msg)
+        time.sleep(0.04)
+        self.publisher_index_.publish(msg)
+        time.sleep(0.04)
+        self.publisher_middle_.publish(msg)
+        time.sleep(0.04)
+        self.publisher_ring_.publish(msg)
+        time.sleep(0.04)
+        self.publisher_little_.publish(msg)
+
         self.get_logger().info('Publishing: "%s"' % msg.closure)
         self.i += 1
-
 
 def main(args=None):
     rclpy.init(args=args)
