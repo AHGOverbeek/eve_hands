@@ -20,11 +20,11 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'wave_r = eve_hands.publisher_member_function:main',
-            'wave_rl = eve_hands.wave_rl:main',
-            'rock_on = eve_hands.rock_on:main',
-            'open = eve_hands.open:main',
-            'listener = eve_hands.subscriber_member_function:main',
+            'wave_r.py = eve_hands.publisher_member_function:main',
+            'wave_rl.py = eve_hands.wave_rl:main',
+            'rock_on.py = eve_hands.rock_on:main',
+            'open.py = eve_hands.open:main',
+            'listener.py = eve_hands.subscriber_member_function:main',
         ],
     },
 )
