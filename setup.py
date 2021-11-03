@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'wave_r = eve_hands.publisher_member_function:main',
             'wave_rl = eve_hands.wave_rl:main',
+            'rock_on = eve_hands.rock_on:main',
             'listener = eve_hands.subscriber_member_function:main',
         ],
     },
