@@ -23,6 +23,7 @@ setup(
             'wave_r = eve_hands.publisher_member_function:main',
             'wave_rl = eve_hands.wave_rl:main',
             'rock_on = eve_hands.rock_on:main',
+            'open = eve_hands.open:main',
             'listener = eve_hands.subscriber_member_function:main',
         ],
     },
