@@ -38,7 +38,7 @@ class MinimalPublisher(Node):
         self.publisher_ring_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_ring', 10)
         self.publisher_little_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_little', 10)
 
-        timer_period = 2 # seconds
+        timer_period = 0.1 # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
     def timer_callback(self):
@@ -71,7 +71,7 @@ class MinimalPublisher(Node):
         time.sleep(delay)
 
         # Closed fingers
-        msg.closure = 15000.0
+        msg.closure = 19000.0
 
         # Right closed fingers
         self.publisher_ring_r_.publish(msg)
