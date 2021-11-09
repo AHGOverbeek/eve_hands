@@ -24,6 +24,7 @@ setup(
             'wave_rl.py = eve_hands.wave_rl:main',
             'rock_on.py = eve_hands.rock_on:main',
             'open.py = eve_hands.open:main',
+            'close.py = eve_hands.close:main',
             'listener.py = eve_hands.subscriber_member_function:main',
         ],
     },
