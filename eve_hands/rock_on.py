@@ -26,6 +26,7 @@ class MinimalPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
 
+        # A publisher for each finger because the Bebionic driver listens to one for each
         self.publisher_thumb_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_thumb', 10)
         self.publisher_index_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_index', 10)
         self.publisher_middle_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_middle', 10)
@@ -38,7 +39,8 @@ class MinimalPublisher(Node):
         self.publisher_ring_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_ring', 10)
         self.publisher_little_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_little', 10)
 
-        timer_period = 2 # seconds
+        # Send every 5 seconds
+        timer_period = 5
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
     def timer_callback(self):
@@ -85,8 +87,8 @@ class MinimalPublisher(Node):
         self.publisher_ring_l_.publish(msg)
         time.sleep(delay)
 
-def main(args=None):
-    rclpy.init(args=args)
+def main():
+    rclpy.init()
 
     minimal_publisher = MinimalPublisher()
 
