@@ -26,7 +26,6 @@ class MinimalPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
 
-        # A publisher for each finger because the Bebionic driver listens to one for each
         self.publisher_thumb_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_thumb', 10)
         self.publisher_index_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_index', 10)
         self.publisher_middle_r_ = self.create_publisher(HandCommand, '/bebionic/right/finger_middle', 10)
@@ -39,8 +38,7 @@ class MinimalPublisher(Node):
         self.publisher_ring_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_ring', 10)
         self.publisher_little_l_ = self.create_publisher(HandCommand, '/bebionic/left/finger_little', 10)
 
-        # Send every 5 seconds
-        timer_period = 5
+        timer_period = 0.1 # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
     def timer_callback(self):
@@ -50,7 +48,7 @@ class MinimalPublisher(Node):
         msg.force = 100.0
         
         #  Open first
-        msg.closure = 12000.0
+        msg.closure = 15000.0
 
         # Cannot publish at the same time (without explicit delay or time.sleep), otherwise only one is executed
         # The limit seems to be about 0.04s, only 25Hz
@@ -58,6 +56,10 @@ class MinimalPublisher(Node):
 
         # Right open fingers
         self.publisher_little_r_.publish(msg)
+        time.sleep(delay)
+        self.publisher_ring_r_.publish(msg)
+        time.sleep(delay)
+        self.publisher_middle_r_.publish(msg)
         time.sleep(delay)
         self.publisher_index_r_.publish(msg)
         time.sleep(delay)
@@ -69,26 +71,15 @@ class MinimalPublisher(Node):
         time.sleep(delay)
         self.publisher_index_l_.publish(msg)
         time.sleep(delay)
-        self.publisher_little_l_.publish(msg)
-        time.sleep(delay)
-
-        # Closed fingers
-        msg.closure = 19000.0
-
-        # Right closed fingers
-        self.publisher_ring_r_.publish(msg)
-        time.sleep(delay)
-        self.publisher_middle_r_.publish(msg)
-        time.sleep(delay)
-
-        # Left closed fingers
         self.publisher_middle_l_.publish(msg)
         time.sleep(delay)
         self.publisher_ring_l_.publish(msg)
         time.sleep(delay)
+        self.publisher_little_l_.publish(msg)
+        time.sleep(delay)
 
-def main():
-    rclpy.init()
+def main(args=None):
+    rclpy.init(args=args)
 
     minimal_publisher = MinimalPublisher()
 
